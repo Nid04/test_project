@@ -4,10 +4,6 @@ const bodyParser = require('body-parser');
 const routesHandler = require('./routes/handler.js');
 
 const app = express();
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
-app.use('/', routesHandler);
-
 const port = process.env.PORT || 4000;
 
 if(process.env.NODE_ENV == "production"){
@@ -15,6 +11,9 @@ if(process.env.NODE_ENV == "production"){
     app.get('*', (req,res) => {
         req.sendFile(path.resolve(__dirname, 'build', 'index.html'));
     });
+    app.use(bodyParser.urlencoded({extended:false}));
+    app.use(bodyParser.json());
+    app.use('/', routesHandler);
 }
 
 app.listen(port, (err) => {
